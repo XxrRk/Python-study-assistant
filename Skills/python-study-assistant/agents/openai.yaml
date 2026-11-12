@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python 学习助手"
+  short_description: "把 Python 文章和代码转成知识卡片并解释每个库"
+  default_prompt: "使用 $python-study-assistant 把这篇文章转换成知识卡片，并解释文中每个库。"
