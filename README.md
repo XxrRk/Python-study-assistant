@@ -4,7 +4,7 @@
 
 当前仓库包含两个版本：
 
-- **v0.2.0（推荐，当前开发版）**：`Skills/python-study-assistant-v0-2`
+- **v0.2.0（推荐，最新版本）**：`Skills/python-study-assistant-v0-2`
 - **v0.1.0（已发布版本）**：`Skills/python-study-assistant`
 
 v0.2.0 在 v0.1.0 的基础上增加了结构化 JSON/文件导出、库别名映射、安全脱敏与副作用策略，并补充了测试与 CI。
@@ -57,7 +57,7 @@ v0.1.0（`Skills/python-study-assistant`）提供基础的四字段卡片、去�
 ├── RELEASE_CHECKLIST.md
 ├── Skills
 │   ├── python-study-assistant          # v0.1.0（已发布）
-│   └── python-study-assistant-v0-2     # v0.2.0（当前开发版，推荐）
+│   └── python-study-assistant-v0-2     # v0.2.0（最新版本，推荐）
 └── tests
     ├── fixtures/                       # 前向测试材料
     ├── schema/                         # JSON 输出 Schema
@@ -175,7 +175,7 @@ print(Path("data/file.txt").parent)  # data
 
 v0.2.0 的本地校验结果为 `Skill is valid!`，JSON 输出已通过 Schema 校验。
 
-> v0.2.0 已提交到 main，尚未创建 GitHub Release；v0.1.0 是已发布的版本。
+> v0.2.0 已发布；v0.1.0 是上一个发布版本。
 
 ## 开源协议
 

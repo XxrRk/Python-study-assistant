@@ -1,6 +1,6 @@
 # Release Checklist
 
-当前版本：`0.2.0`（已提交 main，尚未创建 GitHub Release）
+当前版本：`0.2.0`（已发布）
 目标 Skill：`Skills/python-study-assistant-v0-2`
 
 ## 发布前
