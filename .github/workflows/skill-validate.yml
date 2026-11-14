@@ -1,0 +1,89 @@
+name: Validate Python Study Assistant v0.2
+
+on:
+  push:
+    paths:
+      - "Skills/python-study-assistant-v0-2/**"
+      - "tests/**"
+      - "CHANGELOG.md"
+      - "RELEASE_CHECKLIST.md"
+      - ".github/workflows/skill-validate.yml"
+  pull_request:
+    paths:
+      - "Skills/python-study-assistant-v0-2/**"
+      - "tests/**"
+      - "CHANGELOG.md"
+      - "RELEASE_CHECKLIST.md"
+      - ".github/workflows/skill-validate.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install validator dependencies
+        run: python -m pip install --upgrade pip pyyaml jsonschema
+
+      - name: Run official quick_validate.py
+        run: python tests/tools/quick_validate.py Skills/python-study-assistant-v0-2
+
+      - name: Check fixtures, schema and required SKILL.md sections
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path(".")
+          skill = root / "Skills" / "python-study-assistant-v0-2"
+          assert (skill / "SKILL.md").is_file(), "SKILL.md missing"
+          assert (skill / "agents" / "openai.yaml").is_file(), "openai.yaml missing"
+
+          schema = json.loads(
+              (root / "tests" / "schema" / "cards.schema.json").read_text(encoding="utf-8")
+          )
+          assert schema.get("$schema"), "schema $schema missing"
+          from jsonschema import Draft202012Validator
+
+          Draft202012Validator.check_schema(schema)
+
+          expected = {
+              "01_alias_libraries.py",
+              "02_duplicate_imports.py",
+              "03_prose_mentions.md",
+              "04_local_modules.py",
+              "05_secrets.py",
+              "06_side_effects.py",
+              "07_dedupe_padding.md",
+              "08_non_python.md",
+          }
+          names = {
+              path.name
+              for path in (root / "tests" / "fixtures").glob("*")
+              if path.is_file()
+          }
+          missing = expected - names
+          assert not missing, f"missing fixtures: {sorted(missing)}"
+
+          text = (skill / "SKILL.md").read_text(encoding="utf-8")
+          required_sections = [
+              "结构化 JSON 输出",
+              "库解释（必须）",
+              "导入名与安装包名映射",
+              "敏感信息脱敏",
+              "副作用与执行边界",
+              "source_ref",
+          ]
+          for section in required_sections:
+              assert section in text, f"SKILL.md missing section: {section}"
+
+          print("fixtures:", sorted(names))
+          print("schema: valid")
+          print("skill sections: ok")
+          PY

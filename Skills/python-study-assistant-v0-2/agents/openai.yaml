@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python Study Assistant v0.2"
+  short_description: "把 Python 学习材料转成知识卡片并解释每个库"
+  default_prompt: "使用 $python-study-assistant-v0-2 把这份材料转成知识卡片，并解释文中每个库。"
