@@ -4,7 +4,7 @@
 
 当前仓库包含：
 
-- **v0.3.0（开发版，推荐）**：`Skills/python-study-assistant-v0-3`
+- **v0.3.0（已发布，推荐）**：`Skills/python-study-assistant-v0-3`
 - **v0.2.0（已发布）**：`Skills/python-study-assistant-v0-2`
 - **v0.1.0（已发布）**：`Skills/python-study-assistant`
 
@@ -61,7 +61,7 @@ v0.2.0 提供四字段卡片、单次 JSON/文件导出和基础安全策略；v
 ├── Skills
 │   ├── python-study-assistant          # v0.1.0（已发布）
 │   ├── python-study-assistant-v0-2     # v0.2.0（已发布）
-│   └── python-study-assistant-v0-3     # v0.3.0（开发版，推荐）
+│   └── python-study-assistant-v0-3     # v0.3.0（已发布，推荐）
 │       ├── SKILL.md
 │       ├── agents/openai.yaml
 │       └── references/                 # Deck、输入格式、导出、库映射
@@ -199,7 +199,7 @@ Deck updated: deck.json
 
 v0.3.0 的本地测试已覆盖 Notebook、HTML、目录批量、Deck 合并与重复合并、JSONL/CSV/Anki 导出、别名映射和未知导入；`quick_validate.py`、Deck Schema 与 CI 静态检查均通过。
 
-> v0.3.0 已提交 main，尚未创建 GitHub Release；v0.2.0 是已发布版本。
+> v0.3.0 已发布；v0.2.0 是上一个发布版本。
 
 ## 开源协议
 
