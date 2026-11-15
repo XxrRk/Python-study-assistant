@@ -1,11 +1,9 @@
-"""敏感信息脱敏测试（以下均为伪造值，不是真实凭据）。"""
-API_KEY = "sk-fake-1234567890abcdef"
-GITHUB_TOKEN = "ghp_FAKE1234567890abcdefghijklmnopqrstuv"
-DB_PASSWORD = "SuperSecret123!"
-DATABASE_URL = "postgresql://admin:SuperSecret123!@db.example.com:5432/app"
-PRIVATE_KEY = """-----BEGIN RSA PRIVATE KEY-----
-FAKEKEYMATERIAL1234567890
------END RSA PRIVATE KEY-----"""
+"""敏感信息脱敏测试：以下全部是占位值，不是可用凭据。"""
+API_KEY = "EXAMPLE_API_KEY_VALUE"
+GITHUB_TOKEN = "EXAMPLE_GITHUB_TOKEN_VALUE"
+DB_PASSWORD = "EXAMPLE_DB_PASSWORD_VALUE"
+DATABASE_URL = "postgresql://user:EXAMPLE_DB_PASSWORD_VALUE@example.invalid:5432/app"
+PRIVATE_KEY = "EXAMPLE PRIVATE KEY MATERIAL - NOT A REAL KEY"
 
 
 def connect():

@@ -1,17 +1,19 @@
-name: Validate Python Study Assistant v0.2
+name: Validate Python Study Assistant skills
 
 on:
   push:
     paths:
-      - "Skills/python-study-assistant-v0-2/**"
+      - "Skills/**"
       - "tests/**"
+      - "README.md"
       - "CHANGELOG.md"
       - "RELEASE_CHECKLIST.md"
       - ".github/workflows/skill-validate.yml"
   pull_request:
     paths:
-      - "Skills/python-study-assistant-v0-2/**"
+      - "Skills/**"
       - "tests/**"
+      - "README.md"
       - "CHANGELOG.md"
       - "RELEASE_CHECKLIST.md"
       - ".github/workflows/skill-validate.yml"
@@ -31,29 +33,58 @@ jobs:
       - name: Install validator dependencies
         run: python -m pip install --upgrade pip pyyaml jsonschema
 
-      - name: Run official quick_validate.py
-        run: python tests/tools/quick_validate.py Skills/python-study-assistant-v0-2
+      - name: Run official quick_validate.py (v0.2 and v0.3)
+        run: |
+          python tests/tools/quick_validate.py Skills/python-study-assistant-v0-2
+          python tests/tools/quick_validate.py Skills/python-study-assistant-v0-3
 
-      - name: Check fixtures, schema and required SKILL.md sections
+      - name: Check schemas, fixtures, versions and security policy
         run: |
           python - <<'PY'
           import json
+          import re
           from pathlib import Path
 
-          root = Path(".")
-          skill = root / "Skills" / "python-study-assistant-v0-2"
-          assert (skill / "SKILL.md").is_file(), "SKILL.md missing"
-          assert (skill / "agents" / "openai.yaml").is_file(), "openai.yaml missing"
-
-          schema = json.loads(
-              (root / "tests" / "schema" / "cards.schema.json").read_text(encoding="utf-8")
-          )
-          assert schema.get("$schema"), "schema $schema missing"
+          import yaml
           from jsonschema import Draft202012Validator
 
-          Draft202012Validator.check_schema(schema)
+          root = Path(".")
+          v02 = root / "Skills" / "python-study-assistant-v0-2"
+          v03 = root / "Skills" / "python-study-assistant-v0-3"
 
-          expected = {
+          # --- Skill files exist ---
+          for skill in (v02, v03):
+              assert (skill / "SKILL.md").is_file(), f"{skill} SKILL.md missing"
+              assert (skill / "agents" / "openai.yaml").is_file(), f"{skill} openai.yaml missing"
+
+          # --- JSON Schemas ---
+          cards_schema = json.loads(
+              (root / "tests" / "schema" / "cards.schema.json").read_text(encoding="utf-8")
+          )
+          deck_schema = json.loads(
+              (root / "tests" / "schema" / "deck.schema.json").read_text(encoding="utf-8")
+          )
+          Draft202012Validator.check_schema(cards_schema)
+          Draft202012Validator.check_schema(deck_schema)
+          deck_validator = Draft202012Validator(deck_schema)
+
+          deck = json.loads(
+              (root / "tests" / "fixtures" / "v0.3" / "deck-existing.json").read_text(
+                  encoding="utf-8"
+              )
+          )
+          errors = sorted(deck_validator.iter_errors(deck), key=str)
+          assert not errors, [error.message for error in errors]
+
+          invalid_deck = json.loads(
+              (root / "tests" / "fixtures" / "v0.3" / "deck-invalid.json").read_text(
+                  encoding="utf-8"
+              )
+          )
+          assert list(deck_validator.iter_errors(invalid_deck)), "invalid deck was accepted"
+
+          # --- v0.2 fixtures ---
+          v02_expected = {
               "01_alias_libraries.py",
               "02_duplicate_imports.py",
               "03_prose_mentions.md",
@@ -63,27 +94,91 @@ jobs:
               "07_dedupe_padding.md",
               "08_non_python.md",
           }
-          names = {
+          v02_names = {
               path.name
               for path in (root / "tests" / "fixtures").glob("*")
               if path.is_file()
           }
-          missing = expected - names
-          assert not missing, f"missing fixtures: {sorted(missing)}"
+          assert not v02_expected - v02_names, f"missing v0.2 fixtures: {sorted(v02_expected - v02_names)}"
 
-          text = (skill / "SKILL.md").read_text(encoding="utf-8")
+          # --- v0.3 fixtures ---
+          v03_dir = root / "tests" / "fixtures" / "v0.3"
+          v03_expected = {
+              "notebook_demo.ipynb",
+              "article_noise.html",
+              "aliases_v03.py",
+              "unknown_imports.py",
+              "batch/a.md",
+              "batch/b.py",
+              "batch/nested/c.txt",
+              "deck-existing.json",
+              "deck-invalid.json",
+              "merge-material.md",
+          }
+          v03_names = {
+              path.relative_to(v03_dir).as_posix()
+              for path in v03_dir.rglob("*")
+              if path.is_file()
+          }
+          assert not v03_expected - v03_names, f"missing v0.3 fixtures: {sorted(v03_expected - v03_names)}"
+
+          # --- v0.3 SKILL.md sections ---
+          text = (v03 / "SKILL.md").read_text(encoding="utf-8")
           required_sections = [
-              "结构化 JSON 输出",
+              "Deck 与增量合并",
+              "复习导出",
+              "输入",
               "库解释（必须）",
-              "导入名与安装包名映射",
-              "敏感信息脱敏",
-              "副作用与执行边界",
-              "source_ref",
+              "未确认导入",
+              "安全与示例策略",
+              "schema_version",
+              "references/deck-format.md",
+              "references/exports.md",
+              "references/input-formats.md",
+              "references/library-map.md",
           ]
           for section in required_sections:
-              assert section in text, f"SKILL.md missing section: {section}"
+              assert section in text, f"v0.3 SKILL.md missing: {section}"
 
-          print("fixtures:", sorted(names))
-          print("schema: valid")
-          print("skill sections: ok")
+          # --- Version consistency: README / CHANGELOG / SKILL metadata / openai.yaml ---
+          frontmatter = re.match(r"^---\n(.*?)\n---", text, re.DOTALL)
+          assert frontmatter, "v0.3 SKILL.md frontmatter missing"
+          meta = yaml.safe_load(frontmatter.group(1))
+          assert str(meta.get("metadata", {}).get("version")) == "0.3.0", meta.get("metadata")
+
+          readme = (root / "README.md").read_text(encoding="utf-8")
+          changelog = (root / "CHANGELOG.md").read_text(encoding="utf-8")
+          checklist = (root / "RELEASE_CHECKLIST.md").read_text(encoding="utf-8")
+          openai = yaml.safe_load(
+              (v03 / "agents" / "openai.yaml").read_text(encoding="utf-8")
+          )
+          assert "v0.3.0" in readme, "README missing v0.3.0"
+          assert "## [0.3.0]" in changelog, "CHANGELOG missing [0.3.0]"
+          assert "0.3.0" in checklist, "RELEASE_CHECKLIST missing 0.3.0"
+          assert "v0.3" in openai["interface"]["display_name"], "openai.yaml display_name missing v0.3"
+
+          # --- Fixture security policy: no real-looking token/private-key formats ---
+          forbidden = [
+              "ghp_",
+              "sk-",
+              "-----BEGIN RSA PRIVATE KEY-----",
+              "xyp080803@163.com",
+              "C:\\Users\\",
+          ]
+          for path in (root / "tests" / "fixtures").rglob("*"):
+              if not path.is_file():
+                  continue
+              try:
+                  fixture_text = path.read_text(encoding="utf-8")
+              except UnicodeDecodeError:
+                  continue
+              for token in forbidden:
+                  assert token not in fixture_text, f"forbidden fixture content {token!r} in {path}"
+
+          print("v0.2 fixtures:", sorted(v02_names))
+          print("v0.3 fixtures:", sorted(v03_names))
+          print("schemas: valid")
+          print("deck: valid")
+          print("version markers: consistent")
+          print("fixture security policy: ok")
           PY

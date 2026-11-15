@@ -1,0 +1,2 @@
+Path("data") / "file.txt" 可以拼接路径。
+Path(".").glob("*.py") 可以按通配符查找文件。

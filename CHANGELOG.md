@@ -2,6 +2,23 @@
 
 本项目使用语义化版本。发布日期均为北京时间。
 
+## [0.3.0] - 2026-11-15（已提交 main，尚未创建 GitHub Release）
+
+### Added
+
+- Deck 卡片库：`schema_version`、`deck_id`、`sources`、`cards`，卡片带稳定 `card_id`、`created_at`、`source_id`、可选 tags。
+- Deck 增量合并：按包匹配库卡片、按规范化标题匹配知识点；同材料重复合并不新增重复卡；输出新增/合并/跳过摘要。
+- 输入扩展：`.ipynb`（读取 markdown/code cell，忽略 outputs/execution_count）、`.html`（提取正文/标题/代码块并过滤导航广告脚本）、目录递归批量处理。
+- 复习导出：JSONL、CSV、Anki 兼容 TSV；保留卡片 ID、来源和 tags；`references/exports.md` 固定字段映射。
+- 新增 `deck.schema.json`、Deck/输入/导出测试材料和不变量。
+- 库映射维护：扩充常见别名到独立参考文档，明确标准库判断、废弃包名和未知导入处理（不编造安装名）。
+- CI 增加 v0.2/v0.3 结构校验、Deck Schema、版本标记一致性和测试夹具 secret-scanning 策略。
+
+### Changed
+
+- 测试夹具中的伪造凭据改为明显的 `EXAMPLE_*` 占位值，避免公开仓库 secret scanning 误报。
+- README、CHANGELOG、RELEASE_CHECKLIST 同步 v0.3.0 开发状态。
+
 ## [0.2.0] - 2026-11-14
 
 ### Added

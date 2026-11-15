@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>pathlib 路径操作</title>
+  <style>body { color: #222; }</style>
+  <script>console.log("NOISE_SCRIPT_SHOULD_NOT_APPEAR");</script>
+</head>
+<body>
+  <nav>首页 | 教程 | 登录</nav>
+  <header>
+    <h1>pathlib 路径操作</h1>
+    <p class="ad">广告：购买课程立减 100 元</p>
+  </header>
+  <main>
+    <h2>Path 对象</h2>
+    <p>pathlib 用 <code>Path</code> 对象表示文件路径，比直接拼接字符串更清晰。</p>
+    <p><code>Path("data") / "file.txt"</code> 可以拼接路径。</p>
+    <pre><code class="language-python">from pathlib import Path
+
+p = Path("data") / "file.txt"
+print(p)
+</code></pre>
+    <p><code>Path("data/file.txt").parent</code> 返回父目录。</p>
+  </main>
+  <aside>相关推荐：其他文章</aside>
+  <footer>版权所有 NOISE_FOOTER_SHOULD_NOT_APPEAR</footer>
+  <script>console.log("ANOTHER_NOISE_SCRIPT");</script>
+</body>
+</html>
