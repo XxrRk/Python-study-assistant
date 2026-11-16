@@ -4,7 +4,7 @@
 
 当前仓库包含：
 
-- **v0.4.0（开发版，推荐）**：`Skills/python-study-assistant-v0-4`
+- **v0.4.0（已发布，推荐）**：`Skills/python-study-assistant-v0-4`
 - **v0.3.0（已发布）**：`Skills/python-study-assistant-v0-3`
 - **v0.2.0（已发布）**：`Skills/python-study-assistant-v0-2`
 - **v0.1.0（已发布）**：`Skills/python-study-assistant`
@@ -70,7 +70,7 @@ v0.3.0 提供 Deck 增量合并、Notebook/HTML/目录输入和 JSONL/CSV/Anki �
 │   ├── python-study-assistant          # v0.1.0（已发布）
 │   ├── python-study-assistant-v0-2     # v0.2.0（已发布）
 │   ├── python-study-assistant-v0-3     # v0.3.0（已发布）
-│   └── python-study-assistant-v0-4     # v0.4.0（开发版，推荐）
+│   └── python-study-assistant-v0-4     # v0.4.0（已发布，推荐）
 │       ├── SKILL.md
 │       ├── agents/openai.yaml
 │       └── references/                 # Deck、操作、导出、质量、安全、库映射
@@ -221,7 +221,7 @@ summary: 新增 1 / 合并 0 / 跳过 3
 
 v0.4.0 的本地前向测试已覆盖 dry-run（0 写入）、diff、合并、跨 Deck、v0.3 迁移、筛选/新增导出和安全预扫描；`quick_validate.py`、Deck 0.4 Schema 与本地等价的 CI 静态检查均通过。
 
-> v0.4.0 已提交 main，尚未创建 GitHub Release；v0.3.0 是已发布版本。
+> v0.4.0 已发布；v0.3.0 是上一个发布版本。
 
 ## 开源协议
 
