@@ -3,7 +3,7 @@
 本目录把 v0.5 的质量基线变成可机读的用例清单：
 
 - `cases.schema.json`：用例结构 Schema；
-- `cases.json`：对 v0.2/v0.3/v0.4 fixture 的期望不变量。
+- `cases.json`：对 v0.2/v0.3/v0.4/v0.6 fixture 的期望不变量。
 
 ## 用例字段
 

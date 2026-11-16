@@ -5,8 +5,9 @@
 - `Skills/python-study-assistant-v0-2`（v0.2.0，已发布）
 - `Skills/python-study-assistant-v0-3`（v0.3.0，已发布）
 - `Skills/python-study-assistant-v0-4`（v0.4.0，已发布）
-- `Skills/python-study-assistant-v0-5`（v0.5.0，本地开发）
-- 目录布局：`fixtures/` 输入材料、`fixtures/v0.3/` 与 `fixtures/v0.4/` 新功能材料、`quality/` 质量用例、`schema/` Schema、`tools/` 官方校验脚本；项目级发布工具在根目录 `tools/`。
+- `Skills/python-study-assistant-v0-5`（v0.5.0，已发布）
+- `Skills/python-study-assistant-v0-6`（v0.6.0，本地开发）
+- 目录布局：`fixtures/` 输入材料、`fixtures/v0.3/`、`fixtures/v0.4/` 与 `fixtures/v0.6/` 新功能材料、`quality/` 质量用例、`schema/` Schema、`tools/` 官方校验脚本；项目级发布工具在根目录 `tools/`。
 
 本目录不添加 Skill 运行脚本；行为验证由人工或独立 Agent 前向测试完成。
 
@@ -84,6 +85,23 @@ v0.5 不变量：
 - 发布 workflow 不修改仓库可见性，不使用 force push；
 - 库映射机读文件与 Markdown 说明保持同步。
 
+## v0.6.0 输入扩展
+
+| Fixture | 目的 | 必须满足 |
+| --- | --- | --- |
+| `v0.6/article.rst` | RST 输入 | 标题/正文/code-block 能出卡；pathlib 库卡正确 |
+| `v0.6/article.docx` | DOCX 输入 | 段落/代码段落能提取；忽略页眉页脚；pathlib 库卡正确 |
+| `v0.6/large_material.md` | 长材料覆盖 | 按章节输出覆盖报告；广告章节不进入卡片 |
+| `v0.6/batch/` | 目录扩展 | `.rst`/`.docx`/`.md` 递归处理并去重 |
+
+v0.6 不变量：
+
+- RST/DOCX 在 Deck 中按 `kind=markdown` 记录来源，`ref` 保留原扩展名；
+- DOCX 不执行宏，不读取页眉页脚/批注/修订；
+- 长材料不能只读开头；覆盖报告必须列出读取/跳过章节与原因；
+- 不能因为分块而为同一库重复出卡；
+- v0.6 仍沿用 Deck Schema `0.4.0`。
+
 ## Deck 不变量
 
 - v0.3 Deck 的 `schema_version` 为 `0.3.0`；v0.4 Deck 为 `0.4.0`。
@@ -107,12 +125,12 @@ v0.5 不变量：
 
 `.github/workflows/skill-validate.yml` 会：
 
-1. 分别运行 `tests/tools/quick_validate.py` 检查 v0.2、v0.3、v0.4、v0.5 Skill；
+1. 分别运行 `tests/tools/quick_validate.py` 检查 v0.2、v0.3、v0.4、v0.5、v0.6 Skill；
 2. 校验 `cards.schema.json`、`deck.schema.json`、`deck-0.4.schema.json`、`quality/cases.schema.json` 和示例 Deck；
-3. 检查 v0.2/v0.3/v0.4 fixture、质量用例 fixture 和路径是否齐全；
+3. 检查 v0.2/v0.3/v0.4/v0.6 fixture、质量用例 fixture 和路径是否齐全；
 4. 校验库映射 YAML、发布预检脚本和发布 workflow；
 5. 扫描 tests/fixtures，禁止真实 Token 前缀/私钥格式；
-6. 检查 README、CHANGELOG、SKILL.md、agents/openai.yaml 的 v0.5.0 版本标记一致；
-7. 检查 `SKILL.md` 是否包含 Deck、diff/dry-run、跨 Deck、质量、安全等关键章节。
+6. 检查 README、CHANGELOG、SKILL.md、agents/openai.yaml 的 v0.6.0 版本标记一致；
+7. 检查 `SKILL.md` 是否包含 Deck、diff/dry-run、跨 Deck、质量、安全、长材料等关键章节。
 
 行为验证（模型实际出卡、合并、导出）不在 CI 中执行，由人工/独立 Agent 按上表前向测试完成。

@@ -1,0 +1,167 @@
+schema_version: "1.0"
+updated_at: "2026-11-16"
+mappings:
+  - import_name: PIL
+    package: Pillow
+    kind: third-party
+    notes: 历史导入名，发行版为 Pillow
+  - import_name: yaml
+    package: PyYAML
+    kind: third-party
+    notes: 大小写不敏感
+  - import_name: bs4
+    package: beautifulsoup4
+    kind: third-party
+    notes: BeautifulSoup 的导入名
+  - import_name: sklearn
+    package: scikit-learn
+    kind: third-party
+    notes: sklearn 不是可安装发行版
+  - import_name: cv2
+    package: opencv-python
+    kind: third-party
+    notes: 可选 opencv-contrib-python
+  - import_name: dateutil
+    package: python-dateutil
+    kind: third-party
+    notes: 发行版名带 python- 前缀
+  - import_name: dotenv
+    package: python-dotenv
+    kind: third-party
+    notes: 发行版名带 python- 前缀
+  - import_name: jwt
+    package: PyJWT
+    kind: third-party
+    notes: 与 python-jose 不同
+  - import_name: Crypto
+    package: pycryptodome
+    kind: third-party
+    notes: 不是已停维护的 pycrypto
+  - import_name: win32api
+    package: pywin32
+    kind: third-party
+    notes: Windows 专用
+  - import_name: win32com
+    package: pywin32
+    kind: third-party
+    notes: 与 win32api 同属 pywin32
+  - import_name: serial
+    package: pyserial
+    kind: third-party
+    notes: 导入名与发行版名不同
+  - import_name: OpenGL
+    package: PyOpenGL
+    kind: third-party
+    notes: 导入名与发行版名不同
+  - import_name: skimage
+    package: scikit-image
+    kind: third-party
+    notes: 导入名与发行版名不同
+  - import_name: docx
+    package: python-docx
+    kind: third-party
+    notes: 导入名与发行版名不同
+  - import_name: pptx
+    package: python-pptx
+    kind: third-party
+    notes: 导入名与发行版名不同
+  - import_name: grpc
+    package: grpcio
+    kind: third-party
+    notes: 导入名与发行版名不同
+  - import_name: pydirectinput
+    package: pydirectinput
+    kind: third-party
+    notes: 模拟键鼠，示例不要真实执行
+  - import_name: numpy
+    package: numpy
+    kind: third-party
+    notes: 科学计算基础库
+  - import_name: pandas
+    package: pandas
+    kind: third-party
+    notes: 表格与数据分析
+  - import_name: requests
+    package: requests
+    kind: third-party
+    notes: HTTP 客户端，示例不要真实联网
+  - import_name: matplotlib
+    package: matplotlib
+    kind: third-party
+    notes: 绘图库
+  - import_name: pytest
+    package: pytest
+    kind: third-party
+    notes: 测试框架
+  - import_name: flask
+    package: Flask
+    kind: third-party
+    notes: Web 框架，PyPI 名称大小写不敏感
+  - import_name: django
+    package: Django
+    kind: third-party
+    notes: Web 框架
+  - import_name: fastapi
+    package: fastapi
+    kind: third-party
+    notes: Web API 框架
+  - import_name: sqlalchemy
+    package: SQLAlchemy
+    kind: third-party
+    notes: ORM
+  - import_name: pymongo
+    package: pymongo
+    kind: third-party
+    notes: MongoDB 客户端
+  - import_name: redis
+    package: redis
+    kind: third-party
+    notes: Redis 客户端
+  - import_name: boto3
+    package: boto3
+    kind: third-party
+    notes: AWS SDK
+  - import_name: cryptography
+    package: cryptography
+    kind: third-party
+    notes: 加密库
+  - import_name: OpenSSL
+    package: pyOpenSSL
+    kind: third-party
+    notes: 导入名与发行版名不同
+  - import_name: git
+    package: GitPython
+    kind: third-party
+    notes: 不要与 Git 命令行混淆
+  - import_name: pkg_resources
+    package: setuptools
+    kind: third-party
+    notes: 旧式导入名
+  - import_name: setuptools
+    package: setuptools
+    kind: third-party
+    notes: 打包工具
+  - import_name: heapq
+    package: heapq
+    kind: stdlib
+    notes: 标准库堆队列
+  - import_name: math
+    package: math
+    kind: stdlib
+    notes: 标准库数学函数
+  - import_name: random
+    package: random
+    kind: stdlib
+    notes: 标准库随机数
+  - import_name: time
+    package: time
+    kind: stdlib
+    notes: 标准库时间与计时
+  - import_name: pathlib
+    package: pathlib
+    kind: stdlib
+    notes: 标准库路径对象
+  - import_name: os
+    package: os
+    kind: stdlib
+    notes: 标准库操作系统接口

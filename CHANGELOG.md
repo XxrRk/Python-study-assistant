@@ -2,6 +2,21 @@
 
 本项目使用语义化版本。发布日期均为北京时间。
 
+## [0.6.0] - 2026-11-16
+
+### Added
+
+- 输入扩展：`.rst`（标题、正文、literal block、code-block）和 `.docx`（段落/代码段落提取，忽略页眉页脚、批注和修订）。
+- 长材料处理：按章节分块，输出已覆盖/跳过章节和原因的覆盖报告。
+- 新测试材料：`article.rst`、`article.docx`、`large_material.md` 和 RST/DOCX 目录 fixture。
+- 质量用例增加 v0.6 RST、DOCX、长材料用例。
+- CI 增加 v0.6 Skill、fixture、质量用例、长材料引用和版本一致性校验。
+
+### Changed
+
+- v0.6 沿用 v0.4 的 Deck Schema `0.4.0`；RST/DOCX 在 Deck 中按 `kind=markdown` 记录来源，`ref` 保留原扩展名。
+- 更新 README、CHANGELOG、RELEASE_CHECKLIST、tests README 和 CI 到 v0.6.0。
+
 ## [0.5.0] - 2026-11-16
 
 ### Added

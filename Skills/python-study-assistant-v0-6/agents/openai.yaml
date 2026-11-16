@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python Study Assistant v0.6"
+  short_description: "把 Python 材料整理成可覆盖长文的知识卡片库"
+  default_prompt: "使用 $python-study-assistant-v0-6 处理 RST、DOCX、长材料并整理 Python 知识卡片。"

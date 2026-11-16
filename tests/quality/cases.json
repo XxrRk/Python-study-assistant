@@ -120,6 +120,42 @@
       "notes": "未知导入列未确认，不编造安装名"
     },
     {
+      "id": "v06-rst",
+      "fixture": "tests/fixtures/v0.6/article.rst",
+      "operation": "convert",
+      "expectations": {
+        "min_cards": 3,
+        "max_cards": 10,
+        "required_libraries": ["pathlib"],
+        "required_card_fields": ["title", "knowledge", "example", "question"]
+      },
+      "notes": "RST 标题、正文和 code-block 能正常出卡"
+    },
+    {
+      "id": "v06-docx",
+      "fixture": "tests/fixtures/v0.6/article.docx",
+      "operation": "convert",
+      "expectations": {
+        "min_cards": 3,
+        "max_cards": 10,
+        "required_libraries": ["pathlib"],
+        "required_card_fields": ["title", "knowledge", "example", "question"]
+      },
+      "notes": "DOCX 段落/代码段落提取，忽略页眉页脚"
+    },
+    {
+      "id": "v06-large-material",
+      "fixture": "tests/fixtures/v0.6/large_material.md",
+      "operation": "convert",
+      "expectations": {
+        "min_cards": 4,
+        "max_cards": 8,
+        "required_libraries": ["pathlib"],
+        "forbidden_text": ["本段是广告和课程推荐"]
+      },
+      "notes": "长材料按章节覆盖，广告章节不进入卡片"
+    },
+    {
       "id": "v04-merge",
       "fixture": "tests/fixtures/v0.4/deck-existing.json",
       "secondary_fixture": "tests/fixtures/v0.4/merge-material.md",
