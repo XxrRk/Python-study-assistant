@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python Study Assistant v0.4"
+  short_description: "把 Python 材料整理成可管理、可验证的知识卡片库"
+  default_prompt: "使用 $python-study-assistant-v0-4 管理 Python 知识卡片库，执行合并、筛选导出或质量检查。"

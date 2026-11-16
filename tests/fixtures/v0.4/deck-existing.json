@@ -1,0 +1,61 @@
+{
+  "schema_version": "0.4.0",
+  "deck_id": "python-study-demo-v04",
+  "description": "v0.4 Deck 操作测试",
+  "created_at": "2026-11-16T09:00:00Z",
+  "updated_at": "2026-11-16T09:00:00Z",
+  "sources": [
+    {
+      "source_id": "src-000001",
+      "kind": "markdown",
+      "ref": "notes/pathlib.md",
+      "added_at": "2026-11-16T09:00:00Z"
+    }
+  ],
+  "cards": [
+    {
+      "card_id": "c-000001",
+      "type": "library",
+      "title": "pathlib：面向对象的路径操作（标准库）",
+      "knowledge": "pathlib 是 Python 标准库，用 Path 对象表示路径，支持 / 拼接、parent、glob 等操作。",
+      "example": "from pathlib import Path\n\np = Path(\"data\") / \"file.txt\"\nprint(p)",
+      "question": "pathlib 属于标准库还是第三方库？",
+      "library": {
+        "name": "pathlib",
+        "package": "pathlib",
+        "kind": "stdlib"
+      },
+      "source_id": "src-000001",
+      "source_ref": "notes/pathlib.md",
+      "fingerprint": "lib:pathlib",
+      "tags": ["stdlib", "path"],
+      "created_at": "2026-11-16T09:00:00Z"
+    },
+    {
+      "card_id": "c-000002",
+      "type": "knowledge",
+      "title": "用 / 运算符拼接 Path 路径",
+      "knowledge": "Path 重载了 / 运算符，把路径片段连接成新的 Path 对象，比字符串拼接更清晰。",
+      "example": "from pathlib import Path\n\nprint(Path(\"data\") / \"file.txt\")",
+      "question": "Path(\"data\") / \"file.txt\" 得到的是什么对象？",
+      "source_id": "src-000001",
+      "source_ref": "notes/pathlib.md",
+      "fingerprint": "k:用-path-运算符拼接-path-路径",
+      "tags": ["path"],
+      "created_at": "2026-11-16T09:00:00Z"
+    },
+    {
+      "card_id": "c-000003",
+      "type": "knowledge",
+      "title": "用 Path.parent 取父目录",
+      "knowledge": "Path.parent 返回当前路径的父目录，例如 Path(\"data/file.txt\").parent 是 Path(\"data\")。",
+      "example": "from pathlib import Path\n\nprint(Path(\"data/file.txt\").parent)",
+      "question": "Path(\"data/file.txt\").parent 返回哪个路径？",
+      "source_id": "src-000001",
+      "source_ref": "notes/pathlib.md",
+      "fingerprint": "k:用-path-parent-取父目录",
+      "tags": ["path"],
+      "created_at": "2026-11-16T09:00:00Z"
+    }
+  ]
+}

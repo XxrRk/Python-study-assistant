@@ -2,6 +2,23 @@
 
 本项目使用语义化版本。发布日期均为北京时间。
 
+## [0.4.0] - 2026-11-16（已提交 main，尚未创建 GitHub Release）
+
+### Added
+
+- Deck 操作台：写回前 diff、dry-run/预览、确认写入；筛选导出（tag/type/library/source/keyword/new/include_archived）。
+- 跨 Deck 合并：目标 Deck 已有 ID 不变，来源卡片分配目标新 ID，来源 ID 按 kind+ref 复用或重映射。
+- Deck Schema 0.4.0：可选 `fingerprint`、`archived`、`origin_deck_id`；支持 v0.3.0 Deck 迁移并保留 ID。
+- 归档与拆分：归档不删除、不重用 ID；按筛选拆分新 Deck。
+- 质量基线与回归：新增质量评分表、回归不变量和前向测试方法。
+- 安全预扫描：处理前扫描凭据与个人信息，Deck/导出写回前复查；新增 PII/凭据测试夹具。
+- 新增 v0.4 测试材料、Deck 0.4 Schema 和 CI 校验。
+
+### Changed
+
+- README、CHANGELOG、RELEASE_CHECKLIST 同步 v0.4.0 开发状态。
+- 导出保持 v0.3 字段映射，新增筛选、只导出新增和归档排除规则。
+
 ## [0.3.0] - 2026-11-15
 
 ### Added

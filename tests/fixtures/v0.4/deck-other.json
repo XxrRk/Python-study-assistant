@@ -1,0 +1,48 @@
+{
+  "schema_version": "0.4.0",
+  "deck_id": "python-study-other",
+  "description": "跨 Deck 合并来源",
+  "created_at": "2026-11-16T09:10:00Z",
+  "updated_at": "2026-11-16T09:10:00Z",
+  "sources": [
+    {
+      "source_id": "src-000001",
+      "kind": "markdown",
+      "ref": "notes/other.md",
+      "added_at": "2026-11-16T09:10:00Z"
+    }
+  ],
+  "cards": [
+    {
+      "card_id": "c-000001",
+      "type": "library",
+      "title": "pathlib：文件路径操作模块",
+      "knowledge": "pathlib 是标准库，用 Path 对象表示路径。",
+      "example": "from pathlib import Path\n\nprint(Path(\"data\"))",
+      "question": "pathlib 是标准库还是第三方库？",
+      "library": {
+        "name": "pathlib",
+        "package": "pathlib",
+        "kind": "stdlib"
+      },
+      "source_id": "src-000001",
+      "source_ref": "notes/other.md",
+      "fingerprint": "lib:pathlib",
+      "tags": ["stdlib", "path"],
+      "created_at": "2026-11-16T09:10:00Z"
+    },
+    {
+      "card_id": "c-000002",
+      "type": "knowledge",
+      "title": "用 Path.exists 判断路径是否存在",
+      "knowledge": "Path.exists() 返回布尔值，表示路径是否存在。",
+      "example": "from pathlib import Path\n\nprint(Path(\"data\").exists())",
+      "question": "Path.exists() 返回什么类型的值？",
+      "source_id": "src-000001",
+      "source_ref": "notes/other.md",
+      "fingerprint": "k:用-path-exists-判断路径是否存在",
+      "tags": ["path"],
+      "created_at": "2026-11-16T09:10:00Z"
+    }
+  ]
+}

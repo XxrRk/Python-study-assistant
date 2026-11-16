@@ -1,0 +1,74 @@
+{
+  "schema_version": "0.4.0",
+  "deck_id": "python-study-filter-demo",
+  "description": "筛选与归档测试",
+  "updated_at": "2026-11-16T09:20:00Z",
+  "sources": [
+    {
+      "source_id": "src-000001",
+      "kind": "markdown",
+      "ref": "notes/pathlib.md",
+      "added_at": "2026-11-16T09:20:00Z"
+    }
+  ],
+  "cards": [
+    {
+      "card_id": "c-000001",
+      "type": "library",
+      "title": "pathlib：路径操作模块",
+      "knowledge": "pathlib 是 Python 标准库。",
+      "example": "from pathlib import Path",
+      "question": "pathlib 属于标准库吗？",
+      "library": {
+        "name": "pathlib",
+        "package": "pathlib",
+        "kind": "stdlib"
+      },
+      "source_id": "src-000001",
+      "source_ref": "notes/pathlib.md",
+      "fingerprint": "lib:pathlib",
+      "tags": ["stdlib", "path"],
+      "created_at": "2026-11-16T09:20:00Z"
+    },
+    {
+      "card_id": "c-000002",
+      "type": "knowledge",
+      "title": "用 / 运算符拼接 Path 路径",
+      "knowledge": "Path 重载了 / 运算符。",
+      "example": "from pathlib import Path\n\nprint(Path(\"data\") / \"file.txt\")",
+      "question": "Path(\"data\") / \"file.txt\" 得到什么？",
+      "source_id": "src-000001",
+      "source_ref": "notes/pathlib.md",
+      "fingerprint": "k:用-path-运算符拼接-path-路径",
+      "tags": ["path"],
+      "created_at": "2026-11-16T09:20:00Z"
+    },
+    {
+      "card_id": "c-000003",
+      "type": "knowledge",
+      "title": "用 Path.parent 取父目录",
+      "knowledge": "Path.parent 返回父目录。",
+      "example": "from pathlib import Path\n\nprint(Path(\"data/file.txt\").parent)",
+      "question": "Path(\"data/file.txt\").parent 返回什么？",
+      "source_id": "src-000001",
+      "source_ref": "notes/pathlib.md",
+      "fingerprint": "k:用-path-parent-取父目录",
+      "archived": true,
+      "tags": ["path"],
+      "created_at": "2026-11-16T09:20:00Z"
+    },
+    {
+      "card_id": "c-000004",
+      "type": "knowledge",
+      "title": "用 Path.glob 按通配符查找文件",
+      "knowledge": "Path.glob 按通配符返回匹配路径。",
+      "example": "from pathlib import Path\n\nfor p in Path(\".\").glob(\"*.py\"):\n    print(p)",
+      "question": "Path.glob 用来做什么？",
+      "source_id": "src-000001",
+      "source_ref": "notes/pathlib.md",
+      "fingerprint": "k:用-path-glob-按通配符查找文件",
+      "tags": ["path", "glob"],
+      "created_at": "2026-11-16T09:20:00Z"
+    }
+  ]
+}
