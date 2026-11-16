@@ -1,0 +1,92 @@
+name: Release Python Study Assistant
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version, e.g. 0.5.0"
+        required: true
+        default: "0.5.0"
+      tag:
+        description: "Annotated tag, e.g. v0.5.0"
+        required: true
+        default: "v0.5.0"
+      title:
+        description: "Release title"
+        required: true
+        default: "v0.5.0 - Quality cases, release automation, machine-readable library map"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install validator dependencies
+        run: python -m pip install --upgrade pip pyyaml jsonschema
+
+      - name: Validate v0.5 skill
+        run: python tests/tools/quick_validate.py Skills/python-study-assistant-v0-5
+
+      - name: Preflight version, docs, and release notes
+        env:
+          VERSION: ${{ inputs.version }}
+          TAG: ${{ inputs.tag }}
+          TITLE: ${{ inputs.title }}
+        run: |
+          python tools/release_check.py \
+            --version "$VERSION" \
+            --tag "$TAG" \
+            --title "$TITLE" \
+            --notes-file "$RUNNER_TEMP/release-notes.md"
+
+      - name: Ensure tag and release do not already exist
+        env:
+          TAG: ${{ inputs.tag }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release already exists: $TAG"
+            exit 1
+          fi
+          if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+            echo "Tag already exists: $TAG"
+            exit 1
+          fi
+
+      - name: Create and push annotated tag
+        env:
+          TAG: ${{ inputs.tag }}
+          TITLE: ${{ inputs.title }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG" -m "$TITLE"
+          git push origin "$TAG"
+
+      - name: Create GitHub Release
+        env:
+          TAG: ${{ inputs.tag }}
+          TITLE: ${{ inputs.title }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$TAG" \
+            --title "$TITLE" \
+            --notes-file "$RUNNER_TEMP/release-notes.md" \
+            --verify-tag

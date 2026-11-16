@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python Study Assistant v0.5"
+  short_description: "把 Python 材料整理成可验证、可发布的知识卡片库"
+  default_prompt: "使用 $python-study-assistant-v0-5 维护知识卡片库，并执行质量检查与发布预检。"

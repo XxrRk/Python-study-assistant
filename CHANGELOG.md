@@ -2,6 +2,21 @@
 
 本项目使用语义化版本。发布日期均为北京时间。
 
+## [0.5.0] - 2026-11-16
+
+### Added
+
+- 质量用例：`tests/quality/cases.schema.json` 与 `cases.json`，为 v0.2/v0.3/v0.4 fixture 定义卡片数量、必需库、禁止文本和必需字段。
+- 发布预检：`tools/release_check.py` 检查版本一致性、工作区、Tag 冲突，并从 CHANGELOG 生成发布说明草稿；默认只读。
+- 发布工作流：`.github/workflows/release.yml`，`workflow_dispatch` + `environment: release` 人工审批，校验后创建 annotated Tag 和 Release。
+- 库映射机读化：`references/library-map.yaml`，保留 `library-map.md` 作为人工说明。
+- v0.5 测试/CI 覆盖质量用例、发布工具、库映射和版本一致性。
+
+### Changed
+
+- v0.5 沿用 v0.4 的 Deck Schema `0.4.0`，不改变四字段卡片和导出字段映射。
+- 更新 README、CHANGELOG、RELEASE_CHECKLIST、tests README 和 CI 到 v0.5.0。
+
 ## [0.4.0] - 2026-11-16
 
 ### Added

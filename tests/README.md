@@ -4,8 +4,9 @@
 
 - `Skills/python-study-assistant-v0-2`（v0.2.0，已发布）
 - `Skills/python-study-assistant-v0-3`（v0.3.0，已发布）
-- `Skills/python-study-assistant-v0-4`（v0.4.0，本地开发）
-- 目录布局：`fixtures/` 输入材料、`fixtures/v0.3/` 与 `fixtures/v0.4/` 新功能材料、`schema/` Schema、`tools/` 官方校验脚本。
+- `Skills/python-study-assistant-v0-4`（v0.4.0，已发布）
+- `Skills/python-study-assistant-v0-5`（v0.5.0，本地开发）
+- 目录布局：`fixtures/` 输入材料、`fixtures/v0.3/` 与 `fixtures/v0.4/` 新功能材料、`quality/` 质量用例、`schema/` Schema、`tools/` 官方校验脚本；项目级发布工具在根目录 `tools/`。
 
 本目录不添加 Skill 运行脚本；行为验证由人工或独立 Agent 前向测试完成。
 
@@ -65,6 +66,24 @@
 - Schema：v0.4 Deck 通过 `deck-0.4.schema.json`；v0.3 Deck 仍可通过 `deck.schema.json` 读取。
 - 质量与安全：按 `references/quality-eval.md` 评分；敏感值/个人信息不出现在任何产物中。
 
+## v0.5.0 质量与发布
+
+| 资产 | 目的 | 必须满足 |
+| --- | --- | --- |
+| `tests/quality/cases.schema.json` | 质量用例结构 | 通过 JSON Schema 校验 |
+| `tests/quality/cases.json` | 机读质量基线 | 用例 ID 唯一；fixture 存在；min_cards ≤ max_cards |
+| `tools/release_check.py` | 发布预检 | 默认只读；版本一致；Tag 不存在；生成说明草稿 |
+| `.github/workflows/release.yml` | 发布自动化 | workflow_dispatch；environment: release；只在人工审批后创建 Tag/Release |
+| `Skills/python-study-assistant-v0-5/references/library-map.yaml` | 库映射机读化 | 必填字段完整；import_name 唯一；覆盖 16 个别名 |
+
+v0.5 不变量：
+
+- v0.5 沿用 Deck Schema `0.4.0`，不产生新迁移；
+- 质量用例只校验结构/路径/范围，不在 CI 调用 LLM；
+- 发布预检默认不写文件、不执行 Git 写操作；
+- 发布 workflow 不修改仓库可见性，不使用 force push；
+- 库映射机读文件与 Markdown 说明保持同步。
+
 ## Deck 不变量
 
 - v0.3 Deck 的 `schema_version` 为 `0.3.0`；v0.4 Deck 为 `0.4.0`。
@@ -88,11 +107,12 @@
 
 `.github/workflows/skill-validate.yml` 会：
 
-1. 分别运行 `tests/tools/quick_validate.py` 检查 v0.2、v0.3、v0.4 Skill；
-2. 校验 `cards.schema.json`、`deck.schema.json`、`deck-0.4.schema.json` 和示例 Deck；
-3. 检查 v0.2/v0.3/v0.4 fixture 是否齐全；
-4. 扫描 tests/fixtures，禁止真实 Token 前缀/私钥格式；
-5. 检查 README、CHANGELOG、SKILL.md、agents/openai.yaml 的 v0.4.0 版本标记一致；
-6. 检查 `SKILL.md` 是否包含 Deck、diff/dry-run、跨 Deck、质量、安全等关键章节。
+1. 分别运行 `tests/tools/quick_validate.py` 检查 v0.2、v0.3、v0.4、v0.5 Skill；
+2. 校验 `cards.schema.json`、`deck.schema.json`、`deck-0.4.schema.json`、`quality/cases.schema.json` 和示例 Deck；
+3. 检查 v0.2/v0.3/v0.4 fixture、质量用例 fixture 和路径是否齐全；
+4. 校验库映射 YAML、发布预检脚本和发布 workflow；
+5. 扫描 tests/fixtures，禁止真实 Token 前缀/私钥格式；
+6. 检查 README、CHANGELOG、SKILL.md、agents/openai.yaml 的 v0.5.0 版本标记一致；
+7. 检查 `SKILL.md` 是否包含 Deck、diff/dry-run、跨 Deck、质量、安全等关键章节。
 
 行为验证（模型实际出卡、合并、导出）不在 CI 中执行，由人工/独立 Agent 按上表前向测试完成。

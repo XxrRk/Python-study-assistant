@@ -1,0 +1,191 @@
+{
+  "schema_version": "1.0",
+  "cases": [
+    {
+      "id": "v02-alias-libraries",
+      "fixture": "tests/fixtures/01_alias_libraries.py",
+      "operation": "convert",
+      "expectations": {
+        "min_cards": 5,
+        "max_cards": 25,
+        "required_libraries": ["Pillow", "PyYAML", "beautifulsoup4", "scikit-learn", "opencv-python"],
+        "required_card_fields": ["title", "knowledge", "example", "question"]
+      },
+      "notes": "别名导入必须映射到发行版名"
+    },
+    {
+      "id": "v02-duplicate-imports",
+      "fixture": "tests/fixtures/02_duplicate_imports.py",
+      "operation": "convert",
+      "expectations": {
+        "min_cards": 3,
+        "max_cards": 15,
+        "required_libraries": ["numpy", "PyQt6", "colormath"],
+        "required_card_fields": ["title", "knowledge", "example", "question"]
+      },
+      "notes": "同一库多次导入只出一张库卡片"
+    },
+    {
+      "id": "v02-prose-mentions",
+      "fixture": "tests/fixtures/03_prose_mentions.md",
+      "operation": "convert",
+      "expectations": {
+        "min_cards": 3,
+        "max_cards": 15,
+        "required_libraries": ["pandas", "requests", "matplotlib"]
+      },
+      "notes": "正文提到库也要出卡"
+    },
+    {
+      "id": "v02-local-modules",
+      "fixture": "tests/fixtures/04_local_modules.py",
+      "operation": "convert",
+      "expectations": {
+        "min_cards": 1,
+        "max_cards": 10,
+        "required_libraries": ["os"]
+      },
+      "notes": "本地模块不单独生成库卡片"
+    },
+    {
+      "id": "v02-secrets",
+      "fixture": "tests/fixtures/05_secrets.py",
+      "operation": "security",
+      "expectations": {
+        "min_cards": 0,
+        "max_cards": 10,
+        "forbidden_text": ["EXAMPLE_API_KEY_VALUE", "EXAMPLE_GITHUB_TOKEN_VALUE", "EXAMPLE_DB_PASSWORD_VALUE"]
+      },
+      "notes": "敏感值不能出现在输出中"
+    },
+    {
+      "id": "v02-non-python",
+      "fixture": "tests/fixtures/08_non_python.md",
+      "operation": "convert",
+      "expectations": {
+        "min_cards": 0,
+        "max_cards": 0
+      },
+      "notes": "非 Python 材料不生成卡片，并说明原因"
+    },
+    {
+      "id": "v03-notebook",
+      "fixture": "tests/fixtures/v0.3/notebook_demo.ipynb",
+      "operation": "convert",
+      "expectations": {
+        "min_cards": 3,
+        "max_cards": 10,
+        "required_libraries": ["pathlib"],
+        "forbidden_text": ["SHOULD_NOT_APPEAR"],
+        "required_card_fields": ["title", "knowledge", "example", "question"]
+      },
+      "notes": "忽略 notebook 输出，保留 cell 来源"
+    },
+    {
+      "id": "v03-html",
+      "fixture": "tests/fixtures/v0.3/article_noise.html",
+      "operation": "convert",
+      "expectations": {
+        "min_cards": 3,
+        "max_cards": 10,
+        "required_libraries": ["pathlib"],
+        "forbidden_text": ["NOISE_SCRIPT_SHOULD_NOT_APPEAR", "NOISE_FOOTER_SHOULD_NOT_APPEAR"]
+      },
+      "notes": "过滤导航、广告、脚本和页脚"
+    },
+    {
+      "id": "v03-alias-libraries",
+      "fixture": "tests/fixtures/v0.3/aliases_v03.py",
+      "operation": "convert",
+      "expectations": {
+        "min_cards": 16,
+        "max_cards": 30,
+        "required_libraries": [
+          "Pillow", "PyYAML", "beautifulsoup4", "scikit-learn", "opencv-python",
+          "python-dateutil", "python-dotenv", "PyJWT", "pycryptodome", "pyserial",
+          "PyOpenGL", "scikit-image", "python-docx", "python-pptx", "grpcio", "pydirectinput"
+        ]
+      },
+      "notes": "扩展别名映射，不重复出卡"
+    },
+    {
+      "id": "v03-unknown-imports",
+      "fixture": "tests/fixtures/v0.3/unknown_imports.py",
+      "operation": "convert",
+      "expectations": {
+        "min_cards": 1,
+        "max_cards": 10,
+        "required_libraries": ["os"]
+      },
+      "notes": "未知导入列未确认，不编造安装名"
+    },
+    {
+      "id": "v04-merge",
+      "fixture": "tests/fixtures/v0.4/deck-existing.json",
+      "secondary_fixture": "tests/fixtures/v0.4/merge-material.md",
+      "operation": "merge",
+      "expectations": {
+        "min_cards": 4,
+        "max_cards": 4,
+        "required_libraries": ["pathlib"],
+        "required_card_fields": ["card_id", "source_id", "source_ref", "created_at"]
+      },
+      "notes": "已有 ID 不变，只新增 Path.glob"
+    },
+    {
+      "id": "v04-cross-deck",
+      "fixture": "tests/fixtures/v0.4/deck-existing.json",
+      "secondary_fixture": "tests/fixtures/v0.4/deck-other.json",
+      "operation": "cross_merge",
+      "expectations": {
+        "min_cards": 4,
+        "max_cards": 4,
+        "required_libraries": ["pathlib"],
+        "required_card_fields": ["card_id", "source_id", "source_ref", "created_at"]
+      },
+      "notes": "跨 Deck 去重，目标 ID 不变，来源 ID 重映射"
+    },
+    {
+      "id": "v04-migrate",
+      "fixture": "tests/fixtures/v0.4/deck-v03.json",
+      "operation": "migrate",
+      "expectations": {
+        "min_cards": 3,
+        "max_cards": 3,
+        "required_libraries": ["pathlib"],
+        "required_card_fields": ["card_id", "source_id", "source_ref", "created_at"]
+      },
+      "notes": "v0.3 迁移保留 ID 和内容"
+    },
+    {
+      "id": "v04-filter-export",
+      "fixture": "tests/fixtures/v0.4/filter-deck.json",
+      "operation": "filter_export",
+      "expectations": {
+        "min_cards": 2,
+        "max_cards": 3,
+        "required_libraries": [],
+        "required_card_fields": ["card_id", "source_id", "source_ref"]
+      },
+      "notes": "归档默认排除，include_archived 后为 3 张"
+    },
+    {
+      "id": "v04-security",
+      "fixture": "tests/fixtures/v0.4/pii_and_secrets.md",
+      "operation": "security",
+      "expectations": {
+        "min_cards": 0,
+        "max_cards": 10,
+        "forbidden_text": [
+          "EXAMPLE_API_KEY_VALUE",
+          "EXAMPLE_GITHUB_TOKEN_VALUE",
+          "EXAMPLE_DB_PASSWORD_VALUE",
+          "user@example.invalid",
+          "+86-000-0000-0000",
+          "C:\\path\\to\\project\\notes.md"
+        ]
+      },
+      "notes": "凭据与 PII 测试材料不得泄漏"
+    }
+  ]
+}

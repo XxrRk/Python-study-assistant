@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/python-study-assistant/quality-cases.schema.json",
+  "title": "Python Study Assistant Quality Cases v1.0",
+  "type": "object",
+  "required": ["schema_version", "cases"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/case"
+      }
+    }
+  },
+  "$defs": {
+    "case": {
+      "type": "object",
+      "required": ["id", "fixture", "operation", "expectations"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{2,63}$"
+        },
+        "fixture": {
+          "type": "string",
+          "minLength": 1
+        },
+        "secondary_fixture": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operation": {
+          "enum": ["convert", "merge", "cross_merge", "migrate", "filter_export", "security"]
+        },
+        "expectations": {
+          "type": "object",
+          "required": ["min_cards", "max_cards"],
+          "additionalProperties": false,
+          "properties": {
+            "min_cards": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max_cards": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "required_libraries": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "forbidden_text": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required_card_fields": {
+              "type": "array",
+              "items": {
+                "enum": ["title", "knowledge", "example", "question", "card_id", "source_id", "source_ref", "created_at", "library", "tags"]
+              },
+              "uniqueItems": true
+            },
+            "required_source_ref": {
+              "type": "boolean"
+            }
+          }
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
