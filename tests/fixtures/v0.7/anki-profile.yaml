@@ -1,0 +1,15 @@
+schema_version: "1.0"
+name: review-custom
+format: anki
+front:
+  - title
+  - knowledge
+back:
+  - example
+  - question
+  - source_ref
+  - card_id
+tags:
+  - python-study-assistant
+  - review-custom
+include_archived: false

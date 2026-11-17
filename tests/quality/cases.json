@@ -156,6 +156,18 @@
       "notes": "长材料按章节覆盖，广告章节不进入卡片"
     },
     {
+      "id": "v07-english-output",
+      "fixture": "tests/fixtures/v0.7/english_material.md",
+      "operation": "convert",
+      "expectations": {
+        "min_cards": 3,
+        "max_cards": 10,
+        "required_libraries": ["pathlib"],
+        "required_text": ["Knowledge point", "Example", "Self-check question"]
+      },
+      "notes": "英文材料默认输出英文标签；代码/包名不翻译"
+    },
+    {
       "id": "v04-merge",
       "fixture": "tests/fixtures/v0.4/deck-existing.json",
       "secondary_fixture": "tests/fixtures/v0.4/merge-material.md",

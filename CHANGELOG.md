@@ -2,6 +2,21 @@
 
 本项目使用语义化版本。发布日期均为北京时间。
 
+## [0.7.0] - 2026-11-17
+
+### Added
+
+- 输出语言/术语：支持中文、英文、双语输出；代码/包名/API 不翻译；支持术语表。
+- Anki 导出 profile：可配置 Front/Back 字段顺序、附加 tags、`include_archived`；仍保留 `card_id`/`source_id`。
+- 新测试材料：`english_material.md`、`anki-profile.yaml`。
+- 质量用例增加英文输出 case。
+- CI 增加 v0.7 Skill、fixture、质量用例、语言/导出 profile 引用和版本一致性校验。
+
+### Changed
+
+- v0.7 沿用 v0.4 的 Deck Schema `0.4.0`；语言选择不改变字段名/ID/导出列名。
+- 更新 README、CHANGELOG、RELEASE_CHECKLIST、tests README、release workflow 和 CI 到 v0.7.0。
+
 ## [0.6.0] - 2026-11-16
 
 ### Added

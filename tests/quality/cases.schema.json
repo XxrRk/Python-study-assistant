@@ -73,6 +73,13 @@
               },
               "uniqueItems": true
             },
+            "required_text": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
             "required_source_ref": {
               "type": "boolean"
             }
