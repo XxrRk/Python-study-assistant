@@ -2,6 +2,21 @@
 
 本项目使用语义化版本。发布日期均为北京时间。
 
+## [0.8.0] - 2026-11-17
+
+### Added
+
+- Markdown 复习库导出：Obsidian/Logseq 兼容的 `cards.md` + `index.md`。
+- Markdown vault profile：`split_by`（none/tag/source）、frontmatter、index、文件名配置。
+- 卡片锚点 `<a id="card_id"></a>`、Logseq `id::` 属性、index 链接。
+- 新测试材料与质量用例：`review-profile.yaml`、v0.8 Markdown 复习库 case。
+- CI 增加 v0.8 Skill、fixture、质量用例、Markdown vault 引用和版本一致性校验。
+
+### Changed
+
+- v0.8 沿用 v0.4 的 Deck Schema `0.4.0`；Markdown 导出不改变 Deck/卡片 ID。
+- 更新 README、CHANGELOG、RELEASE_CHECKLIST、tests README、release workflow 和 CI 到 v0.8.0。
+
 ## [0.7.0] - 2026-11-17
 
 ### Added

@@ -1,0 +1,7 @@
+schema_version: "1.0"
+name: obsidian-review
+format: markdown
+split_by: none
+index: true
+frontmatter: true
+filename: cards.md

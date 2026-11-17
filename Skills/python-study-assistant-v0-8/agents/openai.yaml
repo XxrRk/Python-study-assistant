@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python Study Assistant v0.8"
+  short_description: "把 Python 知识卡片导出为可复习的 Markdown 知识库"
+  default_prompt: "使用 $python-study-assistant-v0-8 处理材料并导出 Markdown 复习知识库。"

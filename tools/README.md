@@ -7,14 +7,14 @@
 只读发布预检：
 
 ```bash
-python tools/release_check.py --version 0.7.0
+python tools/release_check.py --version 0.8.0
 ```
 
 可选参数：
 
-- `--tag v0.7.0`：指定 Tag；默认 `v<version>`。
-- `--title "v0.7.0 - ..."`：Release 标题。
-- `--skill Skills/python-study-assistant-v0-7`：Skill 目录；默认按版本推断。
+- `--tag v0.8.0`：指定 Tag；默认 `v<version>`。
+- `--title "v0.8.0 - ..."`：Release 标题。
+- `--skill Skills/python-study-assistant-v0-8`：Skill 目录；默认按版本推断。
 - `--notes-file release-notes.md`：写出发布说明；**只有此参数会写文件**。
 - `--check-remote`：额外检查 GitHub 上是否已有 Tag/Release。
 - `--skip-git-status`：仅用于本地试跑，跳过工作区干净检查。
@@ -37,7 +37,7 @@ python tools/release_check.py --version 0.7.0
 
 流程：
 
-1. 校验 v0.7 Skill 与版本一致性；
+1. 校验 v0.8 Skill 与版本一致性；
 2. 运行 `release_check.py`；
 3. 创建并推送 annotated Tag；
 4. 创建 GitHub Release。

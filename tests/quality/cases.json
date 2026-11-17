@@ -168,6 +168,19 @@
       "notes": "英文材料默认输出英文标签；代码/包名不翻译"
     },
     {
+      "id": "v08-markdown-vault",
+      "fixture": "tests/fixtures/v0.4/deck-existing.json",
+      "secondary_fixture": "tests/fixtures/v0.8/review-profile.yaml",
+      "operation": "filter_export",
+      "expectations": {
+        "min_cards": 3,
+        "max_cards": 3,
+        "required_card_fields": ["card_id", "source_id", "source_ref"],
+        "required_text": ["<a id=\"c-000001\"></a>", "id:: c-000001", "## "]
+      },
+      "notes": "Markdown 复习库：cards.md + index.md；锚点/ID/index 链接稳定"
+    },
+    {
       "id": "v04-merge",
       "fixture": "tests/fixtures/v0.4/deck-existing.json",
       "secondary_fixture": "tests/fixtures/v0.4/merge-material.md",

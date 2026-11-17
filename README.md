@@ -4,7 +4,8 @@
 
 当前仓库包含：
 
-- **v0.7.0（已发布，推荐）**：`Skills/python-study-assistant-v0-7`
+- **v0.8.0（已发布，推荐）**：`Skills/python-study-assistant-v0-8`
+- **v0.7.0（已发布）**：`Skills/python-study-assistant-v0-7`
 - **v0.6.0（已发布）**：`Skills/python-study-assistant-v0-6`
 - **v0.5.0（已发布）**：`Skills/python-study-assistant-v0-5`
 - **v0.4.0（已发布）**：`Skills/python-study-assistant-v0-4`
@@ -12,7 +13,7 @@
 - **v0.2.0（已发布）**：`Skills/python-study-assistant-v0-2`
 - **v0.1.0（已发布）**：`Skills/python-study-assistant`
 
-v0.7.0 在 v0.6.0 基础上增加输出语言/术语和 Anki 导出 profile；Deck 格式继续沿用 Schema `0.4.0`。
+v0.8.0 在 v0.7.0 基础上增加 Markdown 复习库导出（Obsidian/Logseq 兼容）；Deck 格式继续沿用 Schema `0.4.0`。
 
 ## 项目解决什么问题
 
@@ -23,16 +24,17 @@ Python 学习资料常常散落在文章、笔记、Notebook 和代码文件里�
 - 每张卡片只保留一个知识点，并给出最小示例和自测问题；
 - 自动合并重复表述、过滤非 Python 内容，材料信息不足时不凑数；
 - 材料里出现的每个库单独解释，按包去重，并区分标准库、第三方库、本地模块和未确认导入；
-- v0.7.0 支持多语言输出和 Anki profile；RST/DOCX 输入、长材料覆盖、Deck 操作继续保留。
+- v0.8.0 支持 Markdown 复习库；多语言、Anki profile、RST/DOCX、长材料、Deck 操作继续保留。
 
 ## 主要功能
 
-v0.7.0（`Skills/python-study-assistant-v0-7`）：
+v0.8.0（`Skills/python-study-assistant-v0-8`）：
 
-- **多来源输入**：对话中粘贴的文本，以及本地 `.md` / `.txt` / `.py` / `.ipynb` / `.html` / `.rst` / `.docx` 文件；也可以递归处理目录。格式规则见 [references/input-formats.md](Skills/python-study-assistant-v0-7/references/input-formats.md)。
-- **长材料覆盖**：长文按章节分块，输出已覆盖/跳过章节和原因；规则见 [references/large-materials.md](Skills/python-study-assistant-v0-7/references/large-materials.md)。
-- **输出语言/术语**：支持中文/英文/双语输出；代码、包名、API 不翻译；术语表优先。规则见 [references/output-language.md](Skills/python-study-assistant-v0-7/references/output-language.md)。
-- **Anki 导出 profile**：可配置 Front/Back 字段顺序、附加 tags、归档包含；仍保留 card_id/source_id。规则见 [references/export-profiles.md](Skills/python-study-assistant-v0-7/references/export-profiles.md)。
+- **多来源输入**：对话中粘贴的文本，以及本地 `.md` / `.txt` / `.py` / `.ipynb` / `.html` / `.rst` / `.docx` 文件；也可以递归处理目录。格式规则见 [references/input-formats.md](Skills/python-study-assistant-v0-8/references/input-formats.md)。
+- **长材料覆盖**：长文按章节分块，输出已覆盖/跳过章节和原因；规则见 [references/large-materials.md](Skills/python-study-assistant-v0-8/references/large-materials.md)。
+- **输出语言/术语**：支持中文/英文/双语输出；代码、包名、API 不翻译；术语表优先。规则见 [references/output-language.md](Skills/python-study-assistant-v0-8/references/output-language.md)。
+- **Anki 导出 profile**：可配置 Front/Back 字段顺序、附加 tags、归档包含；仍保留 card_id/source_id。规则见 [references/export-profiles.md](Skills/python-study-assistant-v0-8/references/export-profiles.md)。
+- **Markdown 复习库**：导出 Obsidian/Logseq 兼容的 `cards.md` + `index.md`，保留 card_id 锚点、来源和 tags。规则见 [references/markdown-vaults.md](Skills/python-study-assistant-v0-8/references/markdown-vaults.md)。
 - **固定四字段**：每张卡片包含标题、知识点、例子、自测问题。
 
   | 字段 | 说明 |
@@ -44,20 +46,20 @@ v0.7.0（`Skills/python-study-assistant-v0-7`）：
 
 - **一卡一知识点**：不把多个概念塞进一张卡，也不按原文段落机械切分。
 - **去重与不凑数**：同一知识点多次出现时合并；材料只支持 1 张就输出 1 张，没有 Python 知识时说明原因，不编造。
-- **库解释**：标准库、第三方库、框架每个库一张卡片，按包去重；给出“导入名 → 安装包名”映射（如 PIL→Pillow、bs4→beautifulsoup4），完整映射与未知导入处理见 [references/library-map.md](Skills/python-study-assistant-v0-7/references/library-map.md)，机读映射见 [references/library-map.yaml](Skills/python-study-assistant-v0-7/references/library-map.yaml)。
-- **Deck 卡片库**：v0.7 沿用 `schema_version: "0.4.0"`，卡片带稳定 `card_id`、`created_at`、`source_id`、`source_ref`、可选 `fingerprint` / `archived` / `tags` / `origin_deck_id`；格式见 [references/deck-format.md](Skills/python-study-assistant-v0-7/references/deck-format.md)。
+- **库解释**：标准库、第三方库、框架每个库一张卡片，按包去重；给出“导入名 → 安装包名”映射（如 PIL→Pillow、bs4→beautifulsoup4），完整映射与未知导入处理见 [references/library-map.md](Skills/python-study-assistant-v0-8/references/library-map.md)，机读映射见 [references/library-map.yaml](Skills/python-study-assistant-v0-8/references/library-map.yaml)。
+- **Deck 卡片库**：v0.8 沿用 `schema_version: "0.4.0"`，卡片带稳定 `card_id`、`created_at`、`source_id`、`source_ref`、可选 `fingerprint` / `archived` / `tags` / `origin_deck_id`；格式见 [references/deck-format.md](Skills/python-study-assistant-v0-8/references/deck-format.md)。
 - **Deck 操作台**：
   - 写回前输出 diff，支持 dry-run/预览，不写文件；
   - 按 tag / type / library / source / keyword 筛选；
   - 支持“只导出本次新增卡片”；
   - 跨 Deck 合并、v0.3 Deck 迁移、归档与拆分；
-  - 操作规则见 [references/deck-operations.md](Skills/python-study-assistant-v0-7/references/deck-operations.md)。
+  - 操作规则见 [references/deck-operations.md](Skills/python-study-assistant-v0-8/references/deck-operations.md)。
 - **复习导出**：从 Deck 导出 JSONL、CSV、Anki 兼容 TSV；导出保留卡片 ID、来源和 tags，归档卡片默认排除。
 - **结构化输出**：支持单次 JSON（`source` + `cards`）；Deck 使用 [tests/schema/deck-0.4.schema.json](tests/schema/deck-0.4.schema.json)，单次 JSON 使用 [tests/schema/cards.schema.json](tests/schema/cards.schema.json)。
-- **质量用例**：机读用例见 [tests/quality/cases.json](tests/quality/cases.json)，结构见 [tests/quality/cases.schema.json](tests/quality/cases.schema.json)；评分方法见 [references/quality-eval.md](Skills/python-study-assistant-v0-7/references/quality-eval.md)。
+- **质量用例**：机读用例见 [tests/quality/cases.json](tests/quality/cases.json)，结构见 [tests/quality/cases.schema.json](tests/quality/cases.schema.json)；评分方法见 [references/quality-eval.md](Skills/python-study-assistant-v0-8/references/quality-eval.md)。
 - **发布预检**：`tools/release_check.py` 检查版本一致性、工作区、Tag 冲突并生成发布说明草稿；默认只读。
 - **发布工作流**：`.github/workflows/release.yml` 通过 `workflow_dispatch` 和 `environment: release` 人工审批后创建 annotated Tag 和 Release。
-- **安全预扫描**：处理前扫描密码、Token、API Key、私钥、Cookie、凭据连接串和个人信息；规则见 [references/security.md](Skills/python-study-assistant-v0-7/references/security.md)。
+- **安全预扫描**：处理前扫描密码、Token、API Key、私钥、Cookie、凭据连接串和个人信息；规则见 [references/security.md](Skills/python-study-assistant-v0-8/references/security.md)。
 - **可选模式**：只解释第三方库、库卡片精简、只要库卡片/知识点卡片、指定卡片数量。
 - **纯指令 Skill**：Skill 本体只有 `SKILL.md`、`agents/openai.yaml` 和 `references/` 文档，无运行脚本、无第三方依赖。
 
@@ -82,12 +84,13 @@ v0.4.0 提供 Deck 操作、跨 Deck 合并、v0.3 迁移和筛选导出；v0.3.
 │   ├── python-study-assistant-v0-4     # v0.4.0（已发布）
 │   ├── python-study-assistant-v0-5     # v0.5.0（已发布）
 │   ├── python-study-assistant-v0-6     # v0.6.0（已发布）
-│   └── python-study-assistant-v0-7     # v0.7.0（已发布，推荐）
+│   ├── python-study-assistant-v0-7     # v0.7.0（已发布）
+│   └── python-study-assistant-v0-8     # v0.8.0（已发布，推荐）
 │       ├── SKILL.md
 │       ├── agents/openai.yaml
-│       └── references/                 # Deck、操作、导出、语言、质量、安全、库映射、长材料
+│       └── references/                 # Deck、导出、语言、Markdown 复习库、质量、安全、库映射
 ├── tests
-│   ├── fixtures/                       # v0.2 / v0.3 / v0.4 / v0.6 / v0.7 测试材料
+│   ├── fixtures/                       # v0.2 / v0.3 / v0.4 / v0.6 / v0.7 / v0.8 测试材料
 │   ├── quality/                        # 机读质量用例
 │   ├── schema/                         # cards、deck 0.3、deck 0.4 Schema
 │   └── tools/                          # 官方 quick_validate.py 及许可证
@@ -100,9 +103,9 @@ v0.4.0 提供 Deck 操作、跨 Deck 合并、v0.3 迁移和筛选导出；v0.3.
 
 1. 下载或克隆本项目。
 2. 把 Skill 目录复制到客户端的 skills 目录：
-   - 推荐版本：复制 `Skills/python-study-assistant-v0-7`
-   - 使用已发布版本：复制 `Skills/python-study-assistant-v0-6`
-   - 更早版本：复制 `Skills/python-study-assistant-v0-5`、`Skills/python-study-assistant-v0-4`、`Skills/python-study-assistant-v0-3`、`Skills/python-study-assistant-v0-2` 或 `Skills/python-study-assistant`
+   - 推荐版本：复制 `Skills/python-study-assistant-v0-8`
+   - 使用已发布版本：复制 `Skills/python-study-assistant-v0-7`
+   - 更早版本：复制 `Skills/python-study-assistant-v0-6`、`Skills/python-study-assistant-v0-5`、`Skills/python-study-assistant-v0-4`、`Skills/python-study-assistant-v0-3`、`Skills/python-study-assistant-v0-2` 或 `Skills/python-study-assistant`
    - Codex 的默认位置：`~/.codex/skills/`（Windows：`%USERPROFILE%\.codex\skills\`）
    - 其他支持 `SKILL.md` 的客户端：放到其约定的 skills 目录
 3. 刷新或重启客户端，让 Skill 被加载。
@@ -110,46 +113,47 @@ v0.4.0 提供 Deck 操作、跨 Deck 合并、v0.3 迁移和筛选导出；v0.3.
 可选：用仓库内的官方校验脚本检查 Skill 结构：
 
 ```bash
+python tests/tools/quick_validate.py Skills/python-study-assistant-v0-8
 python tests/tools/quick_validate.py Skills/python-study-assistant-v0-7
 python tests/tools/quick_validate.py Skills/python-study-assistant-v0-6
-python tests/tools/quick_validate.py Skills/python-study-assistant-v0-5
 ```
 
 Windows 中文环境如果遇到 `UnicodeDecodeError`，先执行 `set PYTHONUTF8=1` 再运行。
 
 ## 使用方法
 
-使用 v0.7.0：
+使用 v0.8.0：
 
 ```text
-$python-study-assistant-v0-7 把 notes/pathlib.md 转换成知识卡片
-$python-study-assistant-v0-7 把 tests/fixtures/v0.7/english_material.md 转换成英文知识卡片
-$python-study-assistant-v0-7 按 tests/fixtures/v0.7/anki-profile.yaml 从 deck.json 导出 Anki TSV
+$python-study-assistant-v0-8 把 notes/pathlib.md 转换成知识卡片
+$python-study-assistant-v0-8 按 tests/fixtures/v0.8/review-profile.yaml 从 deck.json 导出 Markdown 复习库
+$python-study-assistant-v0-8 把 tests/fixtures/v0.7/english_material.md 转换成英文知识卡片
+$python-study-assistant-v0-8 按 tests/fixtures/v0.7/anki-profile.yaml 从 deck.json 导出 Anki TSV
 ```
 
 Deck 操作：
 
 ```text
-$python-study-assistant-v0-7 把 notes.md 生成 deck.json
-$python-study-assistant-v0-7 预览把 notes.md 合并到 deck.json
-$python-study-assistant-v0-7 把 notes.md 合并到 deck.json
-$python-study-assistant-v0-7 把 deck-other.json 合并到 deck.json
-$python-study-assistant-v0-7 把 v0.3 的 deck 迁移到 v0.4
+$python-study-assistant-v0-8 把 notes.md 生成 deck.json
+$python-study-assistant-v0-8 预览把 notes.md 合并到 deck.json
+$python-study-assistant-v0-8 把 notes.md 合并到 deck.json
+$python-study-assistant-v0-8 把 deck-other.json 合并到 deck.json
+$python-study-assistant-v0-8 把 v0.3 的 deck 迁移到 v0.4
 ```
 
 筛选与导出：
 
 ```text
-$python-study-assistant-v0-7 从 deck.json 导出 tag=stdlib 的 CSV
-$python-study-assistant-v0-7 在本次合并预览后只导出新增卡片的 JSONL
-$python-study-assistant-v0-7 从 deck.json 导出 include_archived 的 Anki TSV
+$python-study-assistant-v0-8 从 deck.json 导出 tag=stdlib 的 CSV
+$python-study-assistant-v0-8 在本次合并预览后只导出新增卡片的 JSONL
+$python-study-assistant-v0-8 从 deck.json 导出 include_archived 的 Anki TSV
 ```
 
 发布预检（项目工具，不属于 Skill 运行时）：
 
 ```bash
-python tools/release_check.py --version 0.7.0
-python tools/release_check.py --version 0.7.0 --notes-file /tmp/release-notes.md
+python tools/release_check.py --version 0.8.0
+python tools/release_check.py --version 0.8.0 --notes-file /tmp/release-notes.md
 ```
 
 发布前需要工作区干净；预检默认只读，不执行 Git 写操作。
@@ -223,21 +227,21 @@ sources: + src-000002 (merge-material.md)
 summary: 新增 1 / 合并 0 / 跳过 3
 ```
 
-确认后写回，并可从 Deck 生成 JSONL、CSV 或 Anki TSV；字段映射见 [references/exports.md](Skills/python-study-assistant-v0-7/references/exports.md)。Deck 结构见 [tests/schema/deck-0.4.schema.json](tests/schema/deck-0.4.schema.json)。
+确认后写回，并可从 Deck 生成 JSONL、CSV 或 Anki TSV；字段映射见 [references/exports.md](Skills/python-study-assistant-v0-8/references/exports.md)。Deck 结构见 [tests/schema/deck-0.4.schema.json](tests/schema/deck-0.4.schema.json)。
 
 ## 验证
 
-仓库包含 v0.2 回归材料、v0.3 输入/Deck 材料、v0.4 Deck 操作材料、v0.5 质量用例与发布工具、v0.6 RST/DOCX/长材料材料、v0.7 多语言/导出 profile 材料，以及 GitHub Actions 校验工作流：
+仓库包含 v0.2 回归材料、v0.3 输入/Deck 材料、v0.4 Deck 操作材料、v0.5 质量用例与发布工具、v0.6 RST/DOCX/长材料材料、v0.7 多语言/Anki profile 材料、v0.8 Markdown 复习库材料，以及 GitHub Actions 校验工作流：
 
-- 分别校验 v0.2、v0.3、v0.4、v0.5、v0.6、v0.7 Skill 结构；
+- 分别校验 v0.2、v0.3、v0.4、v0.5、v0.6、v0.7、v0.8 Skill 结构；
 - 校验 cards、deck 0.3、deck 0.4、质量用例 Schema 和示例 Deck；
-- 校验质量用例 fixture、RST/DOCX/长材料/多语言 fixture、库映射 YAML、发布预检脚本和发布 workflow；
+- 校验质量用例 fixture、RST/DOCX/长材料/多语言/Markdown 复习库 fixture、库映射 YAML、发布预检脚本和发布 workflow；
 - 扫描测试材料，禁止真实 Token 前缀、私钥格式和本机路径误入公开仓库；
-- 检查 README、CHANGELOG、SKILL.md、agents/openai.yaml 的 v0.7.0 版本标记一致。
+- 检查 README、CHANGELOG、SKILL.md、agents/openai.yaml 的 v0.8.0 版本标记一致。
 
-v0.7.0 的本地验证已覆盖英文输出、Anki profile、RST/DOCX/长材料回归、质量用例、发布预检和 A* Python 代码测试；`quick_validate.py`、Schema 与本地等价的 CI 静态检查均通过。
+v0.8.0 的本地验证已覆盖 Markdown 复习库、英文输出、Anki profile、RST/DOCX/长材料回归、质量用例、发布预检和 A* Python 代码测试；`quick_validate.py`、Schema 与本地等价的 CI 静态检查均通过。
 
-> v0.7.0 已发布；v0.6.0 是上一个发布版本。
+> v0.8.0 已发布；v0.7.0 是上一个发布版本。
 
 ## 开源协议
 
