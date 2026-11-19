@@ -181,6 +181,19 @@
       "notes": "Markdown 复习库：cards.md + index.md；锚点/ID/index 链接稳定"
     },
     {
+      "id": "v09-collection-search",
+      "fixture": "tests/fixtures/v0.9/collection.json",
+      "operation": "collection_search",
+      "expectations": {
+        "min_cards": 5,
+        "max_cards": 5,
+        "required_libraries": ["pathlib"],
+        "required_card_fields": ["card_id", "source_id", "source_ref"],
+        "required_text": ["python-study-demo-v04", "python-study-other"]
+      },
+      "notes": "跨两个 Deck 检索，结果必须带 deck_id/path，不自动合并同名卡片"
+    },
+    {
       "id": "v04-merge",
       "fixture": "tests/fixtures/v0.4/deck-existing.json",
       "secondary_fixture": "tests/fixtures/v0.4/merge-material.md",

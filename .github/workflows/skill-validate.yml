@@ -35,7 +35,7 @@ jobs:
       - name: Install validator dependencies
         run: python -m pip install --upgrade pip pyyaml jsonschema
 
-      - name: Run official quick_validate.py (v0.2–v0.8)
+      - name: Run official quick_validate.py (v0.2–v0.9)
         run: |
           python tests/tools/quick_validate.py Skills/python-study-assistant-v0-2
           python tests/tools/quick_validate.py Skills/python-study-assistant-v0-3
@@ -44,6 +44,7 @@ jobs:
           python tests/tools/quick_validate.py Skills/python-study-assistant-v0-6
           python tests/tools/quick_validate.py Skills/python-study-assistant-v0-7
           python tests/tools/quick_validate.py Skills/python-study-assistant-v0-8
+          python tests/tools/quick_validate.py Skills/python-study-assistant-v0-9
 
       - name: Check schemas, fixtures, quality cases, library map and versions
         run: |
@@ -58,7 +59,7 @@ jobs:
           root = Path(".")
 
           # --- Skill files exist ---
-          for version in ("v0-2", "v0-3", "v0-4", "v0-5", "v0-6", "v0-7", "v0-8"):
+          for version in ("v0-2", "v0-3", "v0-4", "v0-5", "v0-6", "v0-7", "v0-8", "v0-9"):
               skill = root / "Skills" / f"python-study-assistant-{version}"
               assert (skill / "SKILL.md").is_file(), f"{skill} SKILL.md missing"
               assert (skill / "agents" / "openai.yaml").is_file(), f"{skill} openai.yaml missing"
@@ -139,13 +140,35 @@ jobs:
           v08_names = {path.relative_to(v08_dir).as_posix() for path in v08_dir.rglob("*") if path.is_file()}
           assert not v08_expected - v08_names, f"missing v0.8 fixtures: {sorted(v08_expected - v08_names)}"
 
+          # --- v0.9 fixtures and collection schema ---
+          v09_dir = root / "tests" / "fixtures" / "v0.9"
+          v09_expected = {"collection.json"}
+          v09_names = {path.relative_to(v09_dir).as_posix() for path in v09_dir.rglob("*") if path.is_file()}
+          assert not v09_expected - v09_names, f"missing v0.9 fixtures: {sorted(v09_expected - v09_names)}"
+
+          collection_schema = json.loads((root / "tests" / "schema" / "collection.schema.json").read_text(encoding="utf-8"))
+          Draft202012Validator.check_schema(collection_schema)
+          collection_validator = Draft202012Validator(collection_schema)
+          collection = json.loads((v09_dir / "collection.json").read_text(encoding="utf-8"))
+          collection_errors = sorted(collection_validator.iter_errors(collection), key=str)
+          assert not collection_errors, [error.message for error in collection_errors]
+          collection_dir = (v09_dir / "collection.json").parent
+          for entry in collection["decks"]:
+              deck_path = (collection_dir / entry["path"]).resolve()
+              assert deck_path.is_file(), f"collection deck missing: {entry['path']}"
+              assert root.resolve() in deck_path.parents, f"collection path escapes repo: {entry['path']}"
+              deck_data = json.loads(deck_path.read_text(encoding="utf-8"))
+              assert deck_data.get("deck_id") == entry["deck_id"], f"deck_id mismatch: {entry['deck_id']}"
+              validator_for_deck = v03_deck_validator if deck_data.get("schema_version") == "0.3.0" else v04_deck_validator
+              assert not list(validator_for_deck.iter_errors(deck_data)), f"collection deck invalid: {entry['path']}"
+
           # --- quality cases ---
           quality = json.loads((root / "tests" / "quality" / "cases.json").read_text(encoding="utf-8"))
           quality_errors = sorted(Draft202012Validator(quality_schema).iter_errors(quality), key=str)
           assert not quality_errors, [error.message for error in quality_errors]
           case_ids = [case["id"] for case in quality["cases"]]
           assert len(case_ids) == len(set(case_ids)), "quality case ids must be unique"
-          assert len(case_ids) >= 20, "quality cases too few"
+          assert len(case_ids) >= 21, "quality cases too few"
           for case in quality["cases"]:
               fixture = root / case["fixture"]
               assert fixture.is_file(), f"quality fixture missing: {case['fixture']}"
@@ -156,7 +179,7 @@ jobs:
 
           # --- v0.5 library map ---
           library_map = yaml.safe_load(
-              (root / "Skills" / "python-study-assistant-v0-8" / "references" / "library-map.yaml").read_text(encoding="utf-8")
+              (root / "Skills" / "python-study-assistant-v0-9" / "references" / "library-map.yaml").read_text(encoding="utf-8")
           )
           assert library_map.get("schema_version") == "1.0", "library-map schema_version"
           mappings = library_map.get("mappings")
@@ -173,7 +196,7 @@ jobs:
               "serial", "OpenGL", "skimage", "docx", "pptx", "grpc", "pydirectinput",
           }
           assert expected_aliases <= set(import_names), f"missing aliases: {sorted(expected_aliases - set(import_names))}"
-          assert (root / "Skills" / "python-study-assistant-v0-8" / "references" / "library-map.md").is_file()
+          assert (root / "Skills" / "python-study-assistant-v0-9" / "references" / "library-map.md").is_file()
 
           # --- Release tooling ---
           release_check = root / "tools" / "release_check.py"
@@ -184,38 +207,40 @@ jobs:
           for marker in ("workflow_dispatch", "environment: release", "permissions:", "contents: write", "gh release create"):
               assert marker in release_workflow, f"release workflow missing {marker}"
 
-          # --- v0.8 SKILL sections and references ---
-          text = (root / "Skills" / "python-study-assistant-v0-8" / "SKILL.md").read_text(encoding="utf-8")
+          # --- v0.9 SKILL sections and references ---
+          text = (root / "Skills" / "python-study-assistant-v0-9" / "SKILL.md").read_text(encoding="utf-8")
           required_sections = [
               "Deck 操作", "写回前必须 diff", "筛选导出", "跨 Deck 合并",
               "质量基线", "质量用例", "安全预扫描", "长材料与覆盖报告",
-              "输出语言与术语", "Anki 导出 profile", "Markdown 复习库",
+              "输出语言与术语", "Anki 导出 profile", "Markdown 复习库", "Deck 集合",
               "references/output-language.md", "references/export-profiles.md",
-              "references/markdown-vaults.md", "references/library-map.yaml",
-              "references/large-materials.md", "RST", "DOCX", "schema_version",
+              "references/markdown-vaults.md", "references/collections.md",
+              "references/library-map.yaml", "references/large-materials.md",
+              "RST", "DOCX", "schema_version",
           ]
           for section in required_sections:
-              assert section in text, f"v0.8 SKILL.md missing: {section}"
+              assert section in text, f"v0.9 SKILL.md missing: {section}"
           for reference in (
               "deck-format.md", "deck-operations.md", "exports.md", "input-formats.md",
               "library-map.md", "library-map.yaml", "quality-eval.md", "security.md",
-              "large-materials.md", "output-language.md", "export-profiles.md", "markdown-vaults.md",
+              "large-materials.md", "output-language.md", "export-profiles.md",
+              "markdown-vaults.md", "collections.md",
           ):
-              assert (root / "Skills" / "python-study-assistant-v0-8" / "references" / reference).is_file(), reference
+              assert (root / "Skills" / "python-study-assistant-v0-9" / "references" / reference).is_file(), reference
 
           # --- Version consistency ---
           frontmatter = re.match(r"^---\n(.*?)\n---", text, re.DOTALL)
-          assert frontmatter, "v0.8 SKILL.md frontmatter missing"
+          assert frontmatter, "v0.9 SKILL.md frontmatter missing"
           meta = yaml.safe_load(frontmatter.group(1))
-          assert str(meta.get("metadata", {}).get("version")) == "0.8.0", meta.get("metadata")
+          assert str(meta.get("metadata", {}).get("version")) == "0.9.0", meta.get("metadata")
           readme = (root / "README.md").read_text(encoding="utf-8")
           changelog = (root / "CHANGELOG.md").read_text(encoding="utf-8")
           checklist = (root / "RELEASE_CHECKLIST.md").read_text(encoding="utf-8")
-          openai = yaml.safe_load((root / "Skills" / "python-study-assistant-v0-8" / "agents" / "openai.yaml").read_text(encoding="utf-8"))
-          assert "v0.8.0" in readme, "README missing v0.8.0"
-          assert "## [0.8.0]" in changelog, "CHANGELOG missing [0.8.0]"
-          assert "0.8.0" in checklist, "RELEASE_CHECKLIST missing 0.8.0"
-          assert "v0.8" in openai["interface"]["display_name"], "openai.yaml display_name missing v0.8"
+          openai = yaml.safe_load((root / "Skills" / "python-study-assistant-v0-9" / "agents" / "openai.yaml").read_text(encoding="utf-8"))
+          assert "v0.9.0" in readme, "README missing v0.9.0"
+          assert "## [0.9.0]" in changelog, "CHANGELOG missing [0.9.0]"
+          assert "0.9.0" in checklist, "RELEASE_CHECKLIST missing 0.9.0"
+          assert "v0.9" in openai["interface"]["display_name"], "openai.yaml display_name missing v0.9"
 
           # --- Fixture security policy ---
           forbidden = [
@@ -238,6 +263,7 @@ jobs:
           print("v0.6 fixtures:", sorted(v06_names))
           print("v0.7 fixtures:", sorted(v07_names))
           print("v0.8 fixtures:", sorted(v08_names))
+          print("v0.9 fixtures:", sorted(v09_names))
           print("quality cases:", len(case_ids))
           print("library mappings:", len(mappings))
           print("schemas: valid")

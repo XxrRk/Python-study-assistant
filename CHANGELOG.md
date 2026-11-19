@@ -2,6 +2,25 @@
 
 本项目使用语义化版本。发布日期均为北京时间。
 
+## [0.9.0] - 2026-11-19
+
+### Added
+
+- Deck 集合：`collection.json` 只读清单，组织多个 Deck。
+- 跨库检索：按 keyword/tag/type/library/source/deck_id 搜索，结果带 deck_id、路径和 card_id。
+- 集合导出：按 Deck 分别导出 Markdown 复习库，顶层 `index.md` 链接各 Deck 文件；JSONL/CSV/Anki 也按 Deck 分别导出。
+- 集合校验：路径相对、禁止绝对/越界路径、`deck_id` 与 Deck 一致、重复检查。
+- 新测试材料：`tests/fixtures/v0.9/collection.json`。
+- 新 Schema：`tests/schema/collection.schema.json`。
+- 质量用例增加集合检索 case。
+- CI 增加 v0.9 Skill、collection Schema/fixture、版本一致性校验。
+
+### Changed
+
+- v0.9 沿用 v0.4 的 Deck Schema `0.4.0`；集合不复制卡片、不改变各 Deck。
+- 跨库同名卡片只报告，不自动合并。
+- 更新 README、CHANGELOG、RELEASE_CHECKLIST、tests README、release workflow 和 CI 到 v0.9.0。
+
 ## [0.8.0] - 2026-11-17
 
 ### Added

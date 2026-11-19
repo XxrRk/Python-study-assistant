@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "collection_id": "python-study-demo",
+  "name": "Demo collection",
+  "decks": [
+    {
+      "deck_id": "python-study-demo-v04",
+      "path": "../v0.4/deck-existing.json",
+      "role": "core"
+    },
+    {
+      "deck_id": "python-study-other",
+      "path": "../v0.4/deck-other.json",
+      "role": "reference"
+    }
+  ]
+}

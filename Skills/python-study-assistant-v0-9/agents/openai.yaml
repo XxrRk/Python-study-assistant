@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python Study Assistant v0.9"
+  short_description: "把多个 Python 知识卡片库组织成可检索的集合"
+  default_prompt: "使用 $python-study-assistant-v0-9 组织多个 Deck 并进行跨库检索和导出。"

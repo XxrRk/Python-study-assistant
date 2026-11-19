@@ -4,17 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Version, e.g. 0.8.0"
+        description: "Version, e.g. 0.9.0"
         required: true
-        default: "0.8.0"
+        default: "0.9.0"
       tag:
-        description: "Annotated tag, e.g. v0.8.0"
+        description: "Annotated tag, e.g. v0.9.0"
         required: true
-        default: "v0.8.0"
+        default: "v0.9.0"
       title:
         description: "Release title"
         required: true
-        default: "v0.8.0 - Markdown review vaults"
+        default: "v0.9.0 - Deck collections and cross-deck search"
 
 permissions:
   contents: write
@@ -41,8 +41,8 @@ jobs:
       - name: Install validator dependencies
         run: python -m pip install --upgrade pip pyyaml jsonschema
 
-      - name: Validate v0.8 skill
-        run: python tests/tools/quick_validate.py Skills/python-study-assistant-v0-8
+      - name: Validate v0.9 skill
+        run: python tests/tools/quick_validate.py Skills/python-study-assistant-v0-9
 
       - name: Preflight version, docs, and release notes
         env:

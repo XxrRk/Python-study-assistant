@@ -36,7 +36,7 @@
           "minLength": 1
         },
         "operation": {
-          "enum": ["convert", "merge", "cross_merge", "migrate", "filter_export", "security"]
+          "enum": ["convert", "merge", "cross_merge", "migrate", "filter_export", "security", "collection_search"]
         },
         "expectations": {
           "type": "object",

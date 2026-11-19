@@ -8,8 +8,9 @@
 - `Skills/python-study-assistant-v0-5`（v0.5.0，已发布）
 - `Skills/python-study-assistant-v0-6`（v0.6.0，已发布）
 - `Skills/python-study-assistant-v0-7`（v0.7.0，已发布）
-- `Skills/python-study-assistant-v0-8`（v0.8.0，本地开发）
-- 目录布局：`fixtures/` 输入材料、`fixtures/v0.3/`、`fixtures/v0.4/`、`fixtures/v0.6/`、`fixtures/v0.7/` 与 `fixtures/v0.8/` 新功能材料、`quality/` 质量用例、`schema/` Schema、`tools/` 官方校验脚本；项目级发布工具在根目录 `tools/`。
+- `Skills/python-study-assistant-v0-8`（v0.8.0，已发布）
+- `Skills/python-study-assistant-v0-9`（v0.9.0，本地开发）
+- 目录布局：`fixtures/` 输入材料、`fixtures/v0.3/`、`fixtures/v0.4/`、`fixtures/v0.6/`、`fixtures/v0.7/`、`fixtures/v0.8/` 与 `fixtures/v0.9/` 新功能材料、`quality/` 质量用例、`schema/` Schema、`tools/` 官方校验脚本；项目级发布工具在根目录 `tools/`。
 
 本目录不添加 Skill 运行脚本；行为验证由人工或独立 Agent 前向测试完成。
 
@@ -134,6 +135,21 @@ v0.8 不变量：
 - 目标目录已有同名文件时先给覆盖计划并等待确认；
 - v0.8 仍沿用 Deck Schema `0.4.0`。
 
+## v0.9.0 Deck 集合
+
+| Fixture | 目的 | 必须满足 |
+| --- | --- | --- |
+| `v0.9/collection.json` | Deck 集合 | collection Schema 通过；两个 Deck 路径/deck_id 正确 |
+| v0.9 collection + 跨库检索 | 跨库检索 | 结果带 deck_id/path/card_id；不自动合并同名卡片 |
+
+v0.9 不变量：
+
+- 集合是只读清单，不复制、不修改 Deck；
+- 路径必须相对且不越界；`deck_id` 必须与 Deck 一致；
+- 跨库同名卡片只报告重复，不静默合并；
+- 集合 Markdown 导出按 Deck 分文件，顶层 index 链接；
+- v0.9 仍沿用 Deck Schema `0.4.0`。
+
 ## Deck 不变量
 
 - v0.3 Deck 的 `schema_version` 为 `0.3.0`；v0.4 Deck 为 `0.4.0`。
@@ -157,12 +173,12 @@ v0.8 不变量：
 
 `.github/workflows/skill-validate.yml` 会：
 
-1. 分别运行 `tests/tools/quick_validate.py` 检查 v0.2、v0.3、v0.4、v0.5、v0.6、v0.7、v0.8 Skill；
-2. 校验 `cards.schema.json`、`deck.schema.json`、`deck-0.4.schema.json`、`quality/cases.schema.json` 和示例 Deck；
-3. 检查 v0.2/v0.3/v0.4/v0.6/v0.7/v0.8 fixture、质量用例 fixture 和路径是否齐全；
+1. 分别运行 `tests/tools/quick_validate.py` 检查 v0.2、v0.3、v0.4、v0.5、v0.6、v0.7、v0.8、v0.9 Skill；
+2. 校验 `cards.schema.json`、`deck.schema.json`、`deck-0.4.schema.json`、`collection.schema.json`、`quality/cases.schema.json` 和示例 Deck/集合；
+3. 检查 v0.2/v0.3/v0.4/v0.6/v0.7/v0.8/v0.9 fixture、质量用例 fixture 和路径是否齐全；
 4. 校验库映射 YAML、发布预检脚本和发布 workflow；
 5. 扫描 tests/fixtures，禁止真实 Token 前缀/私钥格式；
-6. 检查 README、CHANGELOG、SKILL.md、agents/openai.yaml 的 v0.8.0 版本标记一致；
-7. 检查 `SKILL.md` 是否包含 Deck、diff/dry-run、跨 Deck、质量、安全、长材料、语言、导出 profile、Markdown 复习库等关键章节。
+6. 检查 README、CHANGELOG、SKILL.md、agents/openai.yaml 的 v0.9.0 版本标记一致；
+7. 检查 `SKILL.md` 是否包含 Deck、集合、diff/dry-run、跨 Deck、质量、安全、长材料、语言、导出 profile、Markdown 复习库等关键章节。
 
 行为验证（模型实际出卡、合并、导出）不在 CI 中执行，由人工/独立 Agent 按上表前向测试完成。
